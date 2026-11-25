@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de IAs — Todas las inteligencias artificiales y para qué sirve cada una</title>
+<meta name="description" content="Directorio completo de inteligencias artificiales: chat, programación, imagen, video, audio y productividad. Con enlace de acceso a cada una.">
+<style>
+  :root {
+    --bg: #0b0d12;
+    --bg-soft: #12151d;
+    --bg-card: #181c27;
+    --border: #2a2f3d;
+    --text: #e8ecf4;
+    --muted: #9aa3b5;
+    --accent: #a78bfa;
+    --accent2: #34d399;
+    --pink: #f472b6;
+    --orange: #fb923c;
+    --radius: 14px;
+    --mono: "SFMono-Regular", Consolas, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Layout */
+  .layout { display: flex; min-height: 100vh; }
+  nav.sidebar {
+    width: 260px; flex-shrink: 0;
+    background: var(--bg-soft);
+    border-right: 1px solid var(--border);
+    padding: 22px 16px;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  }
+  .brand { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
+  .brand span { color: var(--accent); }
+  .tagline { color: var(--muted); font-size: .78rem; margin-bottom: 16px; }
+  nav.sidebar .group {
+    font-size: .7rem; text-transform: uppercase; letter-spacing: .08em;
+    color: #6b7280; margin: 16px 0 6px; padding-left: 10px;
+  }
+  nav.sidebar a {
+    display: block; color: var(--muted); padding: 6px 10px;
+    border-radius: 8px; font-size: .88rem; margin-bottom: 2px;
+  }
+  nav.sidebar a:hover, nav.sidebar a.active { background: #1f2430; color: var(--text); text-decoration: none; }
+  main { flex: 1; max-width: 980px; margin: 0 auto; padding: 40px 30px 80px; }
+
+  /* Hero */
+  header.hero { padding-bottom: 26px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+  .hero h1 { font-size: 2rem; margin: 0 0 10px; line-height: 1.25; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p { color: var(--muted); margin: 0; max-width: 680px; }
+  .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .stat {
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 999px; font-size: .8rem; color: var(--muted);
+  }
+  .stat b { color: var(--text); }
+
+  /* Search + filters */
+  .toolbar { position: sticky; top: 0; z-index: 20; background: rgba(11,13,18,.92); backdrop-filter: blur(6px); padding: 14px 0 12px; margin-bottom: 8px; }
+  #buscar {
+    width: 100%; padding: 12px 16px; font-size: 1rem;
+    background: var(--bg-card); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius); outline: none;
+  }
+  #buscar:focus { border-color: var(--accent); }
+  #buscar::placeholder { color: #6b7280; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--muted);
+    padding: 5px 13px; border-radius: 999px; font-size: .8rem; cursor: pointer;
+    transition: all .15s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--text); }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #12131a; font-weight: 600; }
+  #resultado { font-size: .8rem; color: var(--muted); margin-top: 8px; }
+
+  /* Sections */
+  section { margin-bottom: 40px; scroll-margin-top: 90px; }
+  h2 {
+    font-size: 1.3rem; margin: 0 0 4px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center;
+  }
+  h2 .ico { font-size: 1.2rem; }
+  p.lead { color: var(--muted); margin-top: 0; font-size: .92rem; }
+
+  /* Cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: transform .12s, border-color .12s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: #3d4457; }
+  .card .head { display: flex; align-items: center; gap: 10px; }
+  .card .logo {
+    width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700; color: #0b0d12;
+  }
+  .card h3 { margin: 0; font-size: 1rem; }
+  .card .empresa { font-size: .72rem; color: var(--muted); }
+  .card p { margin: 0; font-size: .85rem; color: #b9c0d0; flex: 1; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: .68rem; background: #232938; color: #9fb0d0; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+  .go {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .85rem; font-weight: 600; color: var(--accent2);
+    margin-top: 2px;
+  }
+  .go:hover { text-decoration: none; color: #6ee7b7; }
+  .go::after { content: "→"; transition: transform .15s; }
+  .go:hover::after { transform: translateX(4px); }
+  .free { color: var(--accent2); }
+  .paid { color: var(--orange); }
+
+  /* Callouts / tables */
+  .callout {
+    border-left: 4px solid var(--accent); background: #151226;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 12px 16px; margin: 16px 0; font-size: .9rem;
+  }
+  .callout strong:first-child { display: block; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: .87rem; margin: 12px 0; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; }
+  tr:hover td { background: #141821; }
+  ul.tight { padding-left: 20px; margin: 8px 0; }
+  ul.tight li { margin-bottom: 6px; font-size: .9rem; }
+  ul.tight li strong { color: #fff; }
+  .oculto { display: none !important; }
+
+  footer { border-top: 1px solid var(--border); color: var(--muted); font-size: .82rem; padding-top: 18px; margin-top: 40px; }
+
+  @media (max-width: 860px) {
+    .layout { flex-direction: column; }
+    nav.sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); }
+    nav.sidebar a { display: inline-block; }
+    main { padding: 26px 16px 60px; }
+    .toolbar { position: static; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="brand">🤖 <span>Guía de IAs</span></div>
+  <div class="tagline">Qué hay, para qué sirve y dónde entrar</div>
+  <div class="group">Categorías</div>
+  <a href="#chat">💬 Asistentes de chat</a>
+  <a href="#busqueda">🔍 Búsqueda con IA</a>
+  <a href="#codigo">💻 Programación</a>
+  <a href="#imagen">🎨 Imagen y diseño</a>
+  <a href="#video">🎬 Video</a>
+  <a href="#audio">🎵 Audio y voz</a>
+  <a href="#texto">✍️ Escritura y productividad</a>
+  <a href="#devs">🧰 Plataformas para desarrolladores</a>
+  <div class="group">Ayuda</div>
+  <a href="#elegir">🧭 Cómo elegir</a>
+  <a href="#gratis">💰 Gratis vs. de pago</a>
+</nav>
+
+<main>
+
+<header class="hero">
+  <h1>Guía completa de <em>Inteligencias Artificiales</em></h1>
+  <p>Directorio de las principales IAs ordenadas por categoría, con una explicación de
+     <strong>para qué sirve cada una</strong> y un <strong>enlace directo de acceso</strong>.</p>
+  <div class="stats">
+    <span class="stat"><b>50+</b> herramientas</span>
+    <span class="stat"><b>8</b> categorías</span>
+    <span class="stat">Todos los enlaces llevan a la <b>página oficial</b></span>
+    <span class="stat">Actualizado: <b>nov. 2026</b></span>
+  </div>
+</header>
+
+<div class="toolbar">
+  <input id="buscar" type="search" placeholder="🔎 Busca una IA por nombre o función… (ej: imágenes, código, voz)" autocomplete="off">
+  <div class="chips" id="chips">
+    <button class="chip on" data-cat="todas">Todas</button>
+    <button class="chip" data-cat="chat">💬 Chat</button>
+    <button class="chip" data-cat="busqueda">🔍 Búsqueda</button>
+    <button class="chip" data-cat="codigo">💻 Código</button>
+    <button class="chip" data-cat="imagen">🎨 Imagen</button>
+    <button class="chip" data-cat="video">🎬 Video</button>
+    <button class="chip" data-cat="audio">🎵 Audio</button>
+    <button class="chip" data-cat="texto">✍️ Texto</button>
+    <button class="chip" data-cat="devs">🧰 Devs</button>
+  </div>
+  <div id="resultado"></div>
+</div>
+
+<!-- ================= CHAT ================= -->
+<section id="chat" data-cat="chat">
+  <h2><span class="ico">💬</span> Asistentes de conversación (chat)</h2>
+  <p class="lead">Las "IAs generales": responden preguntas, redactan, resumen, traducen y razonan. Empieza por aquí si no sabes por dónde.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="chatgpt openai gpt asistente general conversacional imágenes voz">
+      <div class="head"><div class="logo" style="background:#74aa9c">G</div><div><h3>ChatGPT</h3><div class="empresa">OpenAI</div></div></div>
+      <p>El asistente más popular del mundo: escribir, resumir, traducir, resolver dudas, analizar imágenes, hablar por voz y crear imágenes. Todo en uno.</p>
+      <div class="tags"><span class="tag">Generalista</span><span class="tag">Voz</span><span class="tag">Imágenes</span></div>
+      <a class="go" href="https://chatgpt.com" target="_blank" rel="noopener">Entrar en ChatGPT</a>
+    </div>
+
+    <div class="card" data-busca="claude anthropic programación documentos largo razonamiento">
+      <div class="head"><div class="logo" style="background:#d97757">C</div><div><h3>Claude</h3><div class="empresa">Anthropic</div></div></div>
+      <p>Destaca en razonamiento, escritura natural y programación. Excelente para leer documentos largos, artículos y código. Fuerte en tareas analíticas.</p>
+      <div class="tags"><span class="tag">Razonamiento</span><span class="tag">Documentos</span><span class="tag">Código</span></div>
+      <a class="go" href="https://claude.ai" target="_blank" rel="noopener">Entrar en Claude</a>
+    </div>
+
+    <div class="card" data-busca="gemini google asistente búsqueda gmail docs youtube">
+      <div class="head"><div class="logo" style="background:#4285f4">G</div><div><h3>Gemini</h3><div class="empresa">Google</div></div></div>
+      <p>El asistente de Google: se integra con Search, Gmail, Docs, Drive y YouTube. Multimodal (texto, imagen, video, audio) con gran ventana de contexto.</p>
+      <div class="tags"><span class="tag">Integración Google</span><span class="tag">Multimodal</span></div>
+      <a class="go" href="https://gemini.google.com" target="_blank" rel="noopener">Entrar en Gemini</a>
+    </div>
+
+    <div class="card" data-busca="copilot microsoft windows office bing asistente">
+      <div class="head"><div class="logo" style="background:#00a4ef">M</div><div><h3>Copilot</h3><div class="empresa">Microsoft</div></div></div>
+      <p>El asistente de Microsoft (antes Bing Chat): integrado en Windows, Edge y Microsoft 365. Responde, redacta y ayuda con Office.</p>
+      <div class="tags"><span class="tag">Windows/Office</span><span class="tag">Generalista</span></div>
+      <a class="go" href="https://copilot.microsoft.com" target="_blank" rel="noopener">Entrar en Copilot</a>
+    </div>
+
+    <div class="card" data-busca="grok xai twitter x humor noticias actualidad">
+      <div class="head"><div class="logo" style="background:#e5e7eb">𝕏</div><div><h3>Grok</h3><div class="empresa">xAI (Elon Musk)</div></div></div>
+      <p>El chat de xAI, integrado en X (Twitter). Se caracteriza por respuestas con humor y acceso a tendencias y noticias en tiempo real.</p>
+      <div class="tags"><span class="tag">Actualidad</span><span class="tag">Generalista</span></div>
+      <a class="go" href="https://grok.com" target="_blank" rel="noopener">Entrar en Grok</a>
+    </div>
+
+    <div class="card" data-busca="deepseek chino razonamiento código开源开源 barato">
+      <div class="head"><div class="logo" style="background:#4d6bfe">D</div><div><h3>DeepSeek</h3><div class="empresa">DeepSeek</div></div></div>
+      <p>IA china muy potente en matemáticas, lógica y código, con precios muy bajos. Modelos abiertos que muchos usan también de forma gratuita.</p>
+      <div class="tags"><span class="tag">Razonamiento</span><span class="tag">Económica</span></div>
+      <a class="go" href="https://chat.deepseek.com" target="_blank" rel="noopener">Entrar en DeepSeek</a>
+    </div>
+
+    <div class="card" data-busca="mistral le chat francés europea modelos abiertos">
+      <div class="head"><div class="logo" style="background:#fa500f">M</div><div><h3>Le Chat (Mistral)</h3><div class="empresa">Mistral AI</div></div></div>
+      <p>El chat de la europea Mistral: respuestas muy rápidas y modelos abiertos. Buena opción privada y con servidores en Europa.</p>
+      <div class="tags"><span class="tag">Rápida</span><span class="tag">Europa</span></div>
+      <a class="go" href="https://chat.mistral.ai" target="_blank" rel="noopener">Entrar en Le Chat</a>
+    </div>
+
+    <div class="card" data-busca="qwen alibaba chino chat escritura código">
+      <div class="head"><div class="logo" style="background:#615ced">Q</div><div><h3>Qwen Chat</h3><div class="empresa">Alibaba</div></div></div>
+      <p>Familia de modelos de Alibaba muy usada en Asia: buena en código, visión y varios idiomas. Hay versión gratuita en web.</p>
+      <div class="tags"><span class="tag">Generalista</span><span class="tag">Código</span></div>
+      <a class="go" href="https://chat.qwen.ai" target="_blank" rel="noopener">Entrar en Qwen Chat</a>
+    </div>
+
+    <div class="card" data-busca="kimi moonshot documentos largos contexto chino">
+      <div class="head"><div class="logo" style="background:#111827">K</div><div><h3>Kimi</h3><div class="empresa">Moonshot AI</div></div></div>
+      <p>Famosa por su capacidad de leer documentos y web extremadamente largos (libros, informes enteros) y resumirlos con precisión.</p>
+      <div class="tags"><span class="tag">Documentos largos</span><span class="tag">Gratis</span></div>
+      <a class="go" href="https://www.kimi.com" target="_blank" rel="noopener">Entrar en Kimi</a>
+    </div>
+
+    <div class="card" data-busca="poe varios modelos un solo chat comparar">
+      <div class="head"><div class="logo" style="background:#6d4aff">P</div><div><h3>Poe</h3><div class="empresa">Quora</div></div></div>
+      <p>Una sola app con decenas de modelos (GPT, Claude, Gemini, Llama…) para compararlos o usarlos sin cambiar de herramienta.</p>
+      <div class="tags"><span class="tag">Multi-modelo</span><span class="tag">Comparar</span></div>
+      <a class="go" href="https://poe.com" target="_blank" rel="noopener">Entrar en Poe</a>
+    </div>
+
+    <div class="card" data-busca="meta ai llama whatsapp instagram facebook">
+      <div class="head"><div class="logo" style="background:#0866ff">f</div><div><h3>Meta AI</h3><div class="empresa">Meta</div></div></div>
+      <p>El asistente de Meta integrado en WhatsApp, Instagram y Facebook. Cómodo para preguntas rápidas desde el móvil sin instalar nada.</p>
+      <div class="tags"><span class="tag">WhatsApp</span><span class="tag">Gratis</span></div>
+      <a class="go" href="https://www.meta.ai" target="_blank" rel="noopener">Entrar en Meta AI</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= BÚSQUEDA ================= -->
+<section id="busqueda" data-cat="busqueda">
+  <h2><span class="ico">🔍</span> Búsqueda con IA</h2>
+  <p class="lead">Buscadores que responden la pregunta directamente, con fuentes citadas, en vez de darte una lista de enlaces.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="perplexity buscador fuentes citadas investigación">
+      <div class="head"><div class="logo" style="background:#20808d">P</div><div><h3>Perplexity</h3><div class="empresa">Perplexity AI</div></div></div>
+      <p>El "Google con IA": responde con citas de las fuentes, ideal para investigar, verificar datos y estar al día de noticias.</p>
+      <div class="tags"><span class="tag">Con fuentes</span><span class="tag">Investigación</span></div>
+      <a class="go" href="https://www.perplexity.ai" target="_blank" rel="noopener">Entrar en Perplexity</a>
+    </div>
+
+    <div class="card" data-busca="chatgpt búsqueda web search conversación">
+      <div class="head"><div class="logo" style="background:#10a37f">⌕</div><div><h3>Búsqueda en ChatGPT</h3><div class="empresa">OpenAI</div></div></div>
+      <p>El propio ChatGPT busca en internet cuando lo necesita: útil si ya estás dentro y no quieres cambiar de pestaña.</p>
+      <div class="tags"><span class="tag">Integrada</span></div>
+      <a class="go" href="https://chatgpt.com" target="_blank" rel="noopener">Buscar con ChatGPT</a>
+    </div>
+
+    <div class="card" data-busca="consensus papers científicos estudios académicos">
+      <div class="head"><div class="logo" style="background:#2ea44f">C</div><div><h3>Consensus</h3><div class="empresa">Consensus App</div></div></div>
+      <p>Busca en estudios científicos publicados y resume lo que dice la evidencia. Perfecta para trabajos académicos y datos fiables.</p>
+      <div class="tags"><span class="tag">Académica</span><span class="tag">Ciencia</span></div>
+      <a class="go" href="https://consensus.app" target="_blank" rel="noopener">Entrar en Consensus</a>
+    </div>
+
+    <div class="card" data-busca="elicit papers literatura académica revisiones">
+      <div class="head"><div class="logo" style="background:#8b5cf6">E</div><div><h3>Elicit</h3><div class="empresa">Elicit</div></div></div>
+      <p>Asistente de investigación académica: encuentra artículos, extrae datos de tablas y ayuda a hacer revisiones de literatura.</p>
+      <div class="tags"><span class="tag">Académica</span><span class="tag">Papers</span></div>
+      <a class="go" href="https://elicit.com" target="_blank" rel="noopener">Entrar en Elicit</a>
+    </div>
+
+    <div class="card" data-busca="you buscador privacidad chat">
+      <div class="head"><div class="logo" style="background:#3b82f6">Y</div><div><h3>You.com</h3><div class="empresa">You.com</div></div></div>
+      <p>Buscador con IA y chat, con foco en privacidad y opciones para elegir qué modelo responde cada consulta.</p>
+      <div class="tags"><span class="tag">Buscador</span><span class="tag">Privacidad</span></div>
+      <a class="go" href="https://you.com" target="_blank" rel="noopener">Entrar en You.com</a>
+    </div>
+
+    <div class="card" data-busca="notebooklm google notas podcast resúmenes audios">
+      <div class="head"><div class="logo" style="background:#f59e0b">N</div><div><h3>NotebookLM</h3><div class="empresa">Google</div></div></div>
+      <p>Sube tus documentos (PDF, notas, enlaces) y pregunta solo por ellos: respuestas citadas, resúmenes y hasta podcasts de audio generados.</p>
+      <div class="tags"><span class="tag">Tus documentos</span><span class="tag">Audio</span></div>
+      <a class="go" href="https://notebooklm.google" target="_blank" rel="noopener">Entrar en NotebookLM</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= CÓDIGO ================= -->
+<section id="codigo" data-cat="codigo">
+  <h2><span class="ico">💻</span> Programación con IA</h2>
+  <p class="lead">IAs para escribir, revisar y depurar código. Las tres primeras son las más usadas en 2026.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="claude code terminal agentes programación anthropic">
+      <div class="head"><div class="logo" style="background:#d97757">C</div><div><h3>Claude Code</h3><div class="empresa">Anthropic</div></div></div>
+      <p>Agente de programación en terminal: lee tu proyecto, edita ficheros, ejecuta tests y trabaja por ti siguiendo instrucciones.</p>
+      <div class="tags"><span class="tag">Terminal</span><span class="tag">Agente</span></div>
+      <a class="go" href="https://claude.com/product/claude-code" target="_blank" rel="noopener">Ver Claude Code</a>
+    </div>
+
+    <div class="card" data-busca="github copilot editor vscode completado sugerencias">
+      <div class="head"><div class="logo" style="background:#238636">GH</div><div><h3>GitHub Copilot</h3><div class="empresa">GitHub / Microsoft</div></div></div>
+      <p>El clásico: completado de código mientras escribes en VS Code o JetBrains, más chat y agentes dentro del editor.</p>
+      <div class="tags"><span class="tag">Editor</span><span class="tag">Completado</span></div>
+      <a class="go" href="https://github.com/features/copilot" target="_blank" rel="noopener">Ver GitHub Copilot</a>
+    </div>
+
+    <div class="card" data-busca="cursor editor ide agente ficheros">
+      <div class="head"><div class="logo" style="background:#e5e7eb">◉</div><div><h3>Cursor</h3><div class="empresa">Anysphere</div></div></div>
+      <p>Editor de código (fork de VS Code) pensado para IA: entiende todo el proyecto y escribe o cambia varios ficheros a la vez.</p>
+      <div class="tags"><span class="tag">Editor IA</span><span class="tag">Multi-fichero</span></div>
+      <a class="go" href="https://cursor.com" target="_blank" rel="noopener">Descargar Cursor</a>
+    </div>
+
+    <div class="card" data-busca="opencode open source terminal agentes gratis开源">
+      <div class="head"><div class="logo" style="background:#58a6ff">OC</div><div><h3>OpenCode</h3><div class="empresa">Open Source</div></div></div>
+      <p>Agente de código libre y gratuito para terminal, escritorio y web. Trabaja en tu proyecto con sesiones, subagentes y permisos. (La guía de uso está en mi otro repo 😉)</p>
+      <div class="tags"><span class="tag">Open source</span><span class="tag">Gratis</span></div>
+      <a class="go" href="https://opencode.ai" target="_blank" rel="noopener">Ver OpenCode</a>
+    </div>
+
+    <div class="card" data-busca="windsurf codium agente editor autónomo">
+      <div class="head"><div class="logo" style="background:#09b6a2">W</div><div><h3>Windsurf</h3><div class="empresa">Windsurf (Codium)</div></div></div>
+      <p>Editor con agente autónomo que mantiene el contexto de todo el proyecto mientras trabaja. Alternativa directa a Cursor.</p>
+      <div class="tags"><span class="tag">Editor IA</span><span class="tag">Agente</span></div>
+      <a class="go" href="https://windsurf.com" target="_blank" rel="noopener">Descargar Windsurf</a>
+    </div>
+
+    <div class="card" data-busca="codex openai agente terminal chatgpt código">
+      <div class="head"><div class="logo" style="background:#10a37f">CX</div><div><h3>Codex</h3><div class="empresa">OpenAI</div></div></div>
+      <p>El agente de código de OpenAI: corre en la nube, hace tareas en un repositorio (issues, PRs) o en local desde la terminal.</p>
+      <div class="tags"><span class="tag">Agente</span><span class="tag">Nube</span></div>
+      <a class="go" href="https://chatgpt.com/codex" target="_blank" rel="noopener">Entrar en Codex</a>
+    </div>
+
+    <div class="card" data-busca="replit programar navegador apps deploy">
+      <div class="head"><div class="logo" style="background:#f26207">R</div><div><h3>Replit</h3><div class="empresa">Replit</div></div></div>
+      <p>Programar y publicar apps desde el navegador con IA: escribe la idea, genera el proyecto y lo pone en línea sin instalar nada.</p>
+      <div class="tags"><span class="tag">Navegador</span><span class="tag">Deploy</span></div>
+      <a class="go" href="https://replit.com" target="_blank" rel="noopener">Entrar en Replit</a>
+    </div>
+
+    <div class="card" data-busca="v0 vercel react nextjs interfaces ui">
+      <div class="head"><div class="logo" style="background:#e5e7eb">v0</div><div><h3>v0</h3><div class="empresa">Vercel</div></div></div>
+      <p>Pegas una descripción o una captura y genera interfaces web (React/Next.js) listas para editar y desplegar.</p>
+      <div class="tags"><span class="tag">Interfaces</span><span class="tag">Frontend</span></div>
+      <a class="go" href="https://v0.dev" target="_blank" rel="noopener">Entrar en v0</a>
+    </div>
+
+    <div class="card" data-busca="bolt.new navegador app fullstack stackblitz">
+      <div class="head"><div class="logo" style="background:#146ef5">B</div><div><h3>Bolt.new</h3><div class="empresa">StackBlitz</div></div></div>
+      <p>Crea aplicaciones web completas (frontend + backend) en el navegador con prompts y puedes publicarlas al momento.</p>
+      <div class="tags"><span class="tag">App completa</span><span class="tag">Navegador</span></div>
+      <a class="go" href="https://bolt.new" target="_blank" rel="noopener">Entrar en Bolt.new</a>
+    </div>
+
+    <div class="card" data-busca="lovable proyecto fullstack supabase sin código">
+      <div class="head"><div class="logo" style="background:#e11d48">L</div><div><h3>Lovable</h3><div class="empresa">Lovable</div></div></div>
+      <p>Describe tu producto y genera un proyecto completo con base de datos y autenticación, editable con prompts. Muy usado por no programadores.</p>
+      <div class="tags"><span class="tag">Sin código</span><span class="tag">Fullstack</span></div>
+      <a class="go" href="https://lovable.dev" target="_blank" rel="noopener">Entrar en Lovable</a>
+    </div>
+
+    <div class="card" data-busca="amazon q aws developer enterprise nube">
+      <div class="head"><div class="logo" style="background:#ff9900">Q</div><div><h3>Amazon Q</h3><div class="empresa">AWS</div></div></div>
+      <p>Asistente de IA de AWS para desarrollar, operar y migrar aplicaciones en la nube de Amazon.</p>
+      <div class="tags"><span class="tag">AWS</span><span class="tag">Enterprise</span></div>
+      <a class="go" href="https://aws.amazon.com/q/" target="_blank" rel="noopener">Ver Amazon Q</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= IMAGEN ================= -->
+<section id="imagen" data-cat="imagen">
+  <h2><span class="ico">🎨</span> Imagen y diseño</h2>
+  <p class="lead">Generan o editan imágenes a partir de una descripción (prompt).</p>
+  <div class="grid">
+
+    <div class="card" data-busca="midjourney imágenes arte ilustración estética discord">
+      <div class="head"><div class="logo" style="background:#e5e7eb">MJ</div><div><h3>Midjourney</h3><div class="empresa">Midjourney</div></div></div>
+      <p>Referente en calidad artística: crea imágenes muy elaboradas y estéticas. Ideal para ilustración, concept art y creatividad.</p>
+      <div class="tags"><span class="tag">Arte</span><span class="tag">Alta calidad</span></div>
+      <a class="go" href="https://www.midjourney.com" target="_blank" rel="noopener">Entrar en Midjourney</a>
+    </div>
+
+    <div class="card" data-busca="dall-e chatgpt imágenes openai imágenes">
+      <div class="head"><div class="logo" style="background:#74aa9c">D</div><div><h3>Generación de imágenes en ChatGPT</h3><div class="empresa">OpenAI</div></div></div>
+      <p>La IA de imágenes de OpenAI integrada en el chat: pídele "hazme una imagen de…" y también editar fotos que le subas.</p>
+      <div class="tags"><span class="tag">Fácil</span><span class="tag">Edición</span></div>
+      <a class="go" href="https://chatgpt.com" target="_blank" rel="noopener">Crear imágenes en ChatGPT</a>
+    </div>
+
+    <div class="card" data-busca="gemini imagen nano banana edición google">
+      <div class="head"><div class="logo" style="background:#4285f4">G</div><div><h3>Gemini Images</h3><div class="empresa">Google</div></div></div>
+      <p>Generación y edición de imágenes de Google dentro de Gemini, muy buena editando fotos reales y manteniendo el texto.</p>
+      <div class="tags"><span class="tag">Edición</span><span class="tag">Texto en imagen</span></div>
+      <a class="go" href="https://gemini.google.com" target="_blank" rel="noopener">Crear imágenes en Gemini</a>
+    </div>
+
+    <div class="card" data-busca="stable diffusion modelo abierto local gratis sd">
+      <div class="head"><div class="logo" style="background:#a855f7">SD</div><div><h3>Stable Diffusion</h3><div class="empresa">Stability AI</div></div></div>
+      <p>El modelo de imagen más famoso y <strong>abierto</strong>: se puede usar gratis en tu propio ordenador o en webs como Civitai/SeaArt.</p>
+      <div class="tags"><span class="tag">Open source</span><span class="tag">Local</span></div>
+      <a class="go" href="https://stability.ai" target="_blank" rel="noopener">Ver Stability AI</a>
+    </div>
+
+    <div class="card" data-busca="flux black forest labs imágenes código abierto">
+      <div class="head"><div class="logo" style="background:#111827">F</div><div><h3>FLUX</h3><div class="empresa">Black Forest Labs</div></div></div>
+      <p>Modelo de generación de imágenes de última generación con versiones abiertas, muy elogiado por su realismo y texto.</p>
+      <div class="tags"><span class="tag">Realista</span><span class="tag">Open weights</span></div>
+      <a class="go" href="https://bfl.ai" target="_blank" rel="noopener">Ver Black Forest Labs</a>
+    </div>
+
+    <div class="card" data-busca="adobe firefly photoshop illustrator diseño comercial">
+      <div class="head"><div class="logo" style="background:#ff0000">A</div><div><h3>Adobe Firefly</h3><div class="empresa">Adobe</div></div></div>
+      <p>La IA de Adobe, integrada en Photoshop e Illustrator (relleno generativo, ampliar lienzo). Segura para uso comercial.</p>
+      <div class="tags"><span class="tag">Diseño pro</span><span class="tag">Comercial</span></div>
+      <a class="go" href="https://firefly.adobe.com" target="_blank" rel="noopener">Entrar en Firefly</a>
+    </div>
+
+    <div class="card" data-busca="ideogram texto logos carteles diseño">
+      <div class="head"><div class="logo" style="background:#f59e0b">I</div><div><h3>Ideogram</h3><div class="empresa">Ideogram</div></div></div>
+      <p>La mejor escribiendo <strong>texto dentro de las imágenes</strong>: logos, carteles, memes y diseños con titulares legibles.</p>
+      <div class="tags"><span class="tag">Logos</span><span class="tag">Texto</span></div>
+      <a class="go" href="https://ideogram.ai" target="_blank" rel="noopener">Entrar en Ideogram</a>
+    </div>
+
+    <div class="card" data-busca="leonardo juegos assets personajes game dev">
+      <div class="head"><div class="logo" style="background:#7c3aed">L</div><div><h3>Leonardo AI</h3><div class="empresa">Leonardo</div></div></div>
+      <p>Generación de imágenes orientada a videojuegos: personajes, texturas y assets con estilos consistentes.</p>
+      <div class="tags"><span class="tag">Games</span><span class="tag">Assets</span></div>
+      <a class="go" href="https://leonardo.ai" target="_blank" rel="noopener">Entrar en Leonardo</a>
+    </div>
+
+    <div class="card" data-busca="canva magic estudio diseño presentaciones redes sociales">
+      <div class="head"><div class="logo" style="background:#00c4cc">C</div><div><h3>Canva Magic Studio</h3><div class="empresa">Canva</div></div></div>
+      <p>Todas las herramientas de IA de Canva: generar imágenes, quitar fondos, reescribir textos y crear diseños y presentaciones completas.</p>
+      <div class="tags"><span class="tag">Principiantes</span><span class="tag">Redes sociales</span></div>
+      <a class="go" href="https://www.canva.com/magic/" target="_blank" rel="noopener">Ver Canva Magic</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= VIDEO ================= -->
+<section id="video" data-cat="video">
+  <h2><span class="ico">🎬</span> Video</h2>
+  <p class="lead">Generan videos desde texto, animan fotos o crean presentadores virtuales.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="sora openai video películas cortos">
+      <div class="head"><div class="logo" style="background:#10a37f">S</div><div><h3>Sora</h3><div class="empresa">OpenAI</div></div></div>
+      <p>Crea videos realistas a partir de una descripción. El referente en calidad de vídeo generado por IA.</p>
+      <div class="tags"><span class="tag">Texto → vídeo</span><span class="tag">Realista</span></div>
+      <a class="go" href="https://sora.com" target="_blank" rel="noopener">Entrar en Sora</a>
+    </div>
+
+    <div class="card" data-busca="veo google deepmind flow video">
+      <div class="head"><div class="logo" style="background:#4285f4">V</div><div><h3>Veo (Flow)</h3><div class="empresa">Google DeepMind</div></div></div>
+      <p>El generador de vídeo de Google, accesible desde la app Flow: videos cortos muy realistas con buena física y sonido.</p>
+      <div class="tags"><span class="tag">Texto → vídeo</span></div>
+      <a class="go" href="https://labs.google/flow" target="_blank" rel="noopener">Entrar en Flow</a>
+    </div>
+
+    <div class="card" data-busca="runway ml edición video filmígeno películas">
+      <div class="head"><div class="logo" style="background:#e5e7eb">R</div><div><h3>Runway</h3><div class="empresa">Runway</div></div></div>
+      <p>Herramientas de vídeo con IA: generar clips, quitar fondo, limpiar audio y editar con efectos automáticos. Usado en cine.</p>
+      <div class="tags"><span class="tag">Edición</span><span class="tag">Profesional</span></div>
+      <a class="go" href="https://runwayml.com" target="_blank" rel="noopener">Entrar en Runway</a>
+    </div>
+
+    <div class="card" data-busca="kling kuaishou video china animación">
+      <div class="head"><div class="logo" style="background:#0ea5e9">K</div><div><h3>Kling AI</h3><div class="empresa">Kuaishou</div></div></div>
+      <p>Muy popular por sus videos largos y con buen movimiento, además de animar fotos. Mucho uso gratuito diario.</p>
+      <div class="tags"><span class="tag">Texto → vídeo</span><span class="tag">Gratis</span></div>
+      <a class="go" href="https://klingai.com" target="_blank" rel="noopener">Entrar en Kling AI</a>
+    </div>
+
+    <div class="card" data-busca="luma dream machine foto a video 3d">
+      <div class="head"><div class="logo" style="background:#a855f7">L</div><div><h3>Luma Dream Machine</h3><div class="empresa">Luma AI</div></div></div>
+      <p>Convierte imágenes y texto en clips con movimiento fluido; también genera escenas 3D.</p>
+      <div class="tags"><span class="tag">Foto → vídeo</span></div>
+      <a class="go" href="https://lumalabs.ai/dream-machine" target="_blank" rel="noopener">Entrar en Dream Machine</a>
+    </div>
+
+    <div class="card" data-busca="pika video animación stickers micro clips">
+      <div class="head"><div class="logo" style="background:#ec4899">P</div><div><h3>Pika</h3><div class="empresa">Pika Labs</div></div></div>
+      <p>Videos cortos y divertidos con efectos (inflate, melt…) muy fáciles de usar desde el móvil.</p>
+      <div class="tags"><span class="tag">Rápida</span><span class="tag">Efectos</span></div>
+      <a class="go" href="https://pika.art" target="_blank" rel="noopener">Entrar en Pika</a>
+    </div>
+
+    <div class="card" data-busca="heygen avatar presentador virtual traducción lipsync">
+      <div class="head"><div class="logo" style="background:#2563eb">H</div><div><h3>HeyGen</h3><div class="empresa">HeyGen</div></div></div>
+      <p>Avatares virtuales que hablan por ti: graba un vídeo y lo traduce a otros idiomas sincronizando los labios.</p>
+      <div class="tags"><span class="tag">Avatares</span><span class="tag">Traducción</span></div>
+      <a class="go" href="https://www.heygen.com" target="_blank" rel="noopener">Entrar en HeyGen</a>
+    </div>
+
+    <div class="card" data-busca="synthesia empresa formación videos corporativos">
+      <div class="head"><div class="logo" style="background:#0f172a">S</div><div><h3>Synthesia</h3><div class="empresa">Synthesia</div></div></div>
+      <p>Videos corporativos y de formación con presentadores virtuales en decenas de idiomas, sin cámara ni actores.</p>
+      <div class="tags"><span class="tag">Empresas</span><span class="tag">Formación</span></div>
+      <a class="go" href="https://www.synthesia.io" target="_blank" rel="noopener">Entrar en Synthesia</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= AUDIO ================= -->
+<section id="audio" data-cat="audio">
+  <h2><span class="ico">🎵</span> Audio y voz</h2>
+  <p class="lead">Generan música, locuciones realistas, transcriben y clonan voces.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="elevenlabs voz locución narración clonar voz tts">
+      <div class="head"><div class="logo" style="background:#111">E</div><div><h3>ElevenLabs</h3><div class="empresa">ElevenLabs</div></div></div>
+      <p>La mejor voz de IA: locuciones naturales en muchos idiomas, doblaje y clonación de tu propia voz para narraciones.</p>
+      <div class="tags"><span class="tag">Texto → voz</span><span class="tag">Clonar voz</span></div>
+      <a class="go" href="https://elevenlabs.io" target="_blank" rel="noopener">Entrar en ElevenLabs</a>
+    </div>
+
+    <div class="card" data-busca="suno música canciones letras audio generación">
+      <div class="head"><div class="logo" style="background:#f43f5e">S</div><div><h3>Suno</h3><div class="empresa">Suno</div></div></div>
+      <p>Escribe una idea y genera una canción completa con voz, letra e instrumentación en segundos. El fenómeno de la música con IA.</p>
+      <div class="tags"><span class="tag">Música</span><span class="tag">Texto → canción</span></div>
+      <a class="go" href="https://suno.com" target="_blank" rel="noopener">Entrar en Suno</a>
+    </div>
+
+    <div class="card" data-busca="udio música canciones alta calidad">
+      <div class="head"><div class="logo" style="background:#4f46e5">U</div><div><h3>Udio</h3><div class="empresa">Udio</div></div></div>
+      <p>Otro generador de música con IA muy elogiado por la calidad de sus instrumentales y voces.</p>
+      <div class="tags"><span class="tag">Música</span></div>
+      <a class="go" href="https://www.udio.com" target="_blank" rel="noopener">Entrar en Udio</a>
+    </div>
+
+    <div class="card" data-busca="murf locutor voces presentación comercial">
+      <div class="head"><div class="logo" style="background:#3b82f6">M</div><div><h3>Murf</h3><div class="empresa">Murf AI</div></div></div>
+      <p>Voces de locución profesionales para vídeos, anuncios y presentaciones, con control de tono y ritmo.</p>
+      <div class="tags"><span class="tag">Locución</span></div>
+      <a class="go" href="https://murf.ai" target="_blank" rel="noopener">Entrar en Murf</a>
+    </div>
+
+    <div class="card" data-busca="otter transcripción reuniones notas actas">
+      <div class="head"><div class="logo" style="background:#10b981">O</div><div><h3>Otter.ai</h3><div class="empresa">Otter</div></div></div>
+      <p>Transcribe y resume reuniones en tiempo real, con actas automáticas y puntos de acción.</p>
+      <div class="tags"><span class="tag">Reuniones</span><span class="tag">Transcripción</span></div>
+      <a class="go" href="https://otter.ai" target="_blank" rel="noopener">Entrar en Otter</a>
+    </div>
+
+    <div class="card" data-busca="descript editar audio vídeo texto podcast">
+      <div class="head"><div class="logo" style="background:#8b5cf6">D</div><div><h3>Descript</h3><div class="empresa">Descript</div></div></div>
+      <p>Edita podcasts y vídeos <strong>borrando texto</strong>: como si editaras un documento. Quita muletillas y ruido con un clic.</p>
+      <div class="tags"><span class="tag">Podcast</span><span class="tag">Edición fácil</span></div>
+      <a class="go" href="https://www.descript.com" target="_blank" rel="noopener">Entrar en Descript</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= TEXTO ================= -->
+<section id="texto" data-cat="texto">
+  <h2><span class="ico">✍️</span> Escritura y productividad</h2>
+  <p class="lead">Redactar, corregir, organizar el trabajo y crear presentaciones.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="grammarly corrección ortografía inglés escritura">
+      <div class="head"><div class="logo" style="background:#15c39a">G</div><div><h3>Grammarly</h3><div class="empresa">Grammarly</div></div></div>
+      <p>Corrige ortografía, gramática y estilo mientras escribes en el navegador o Word. Muy útil para inglés.</p>
+      <div class="tags"><span class="tag">Corrección</span><span class="tag">Inglés</span></div>
+      <a class="go" href="https://www.grammarly.com" target="_blank" rel="noopener">Entrar en Grammarly</a>
+    </div>
+
+    <div class="card" data-busca="notion ai notas base datos tareas organización">
+      <div class="head"><div class="logo" style="background:#e5e7eb">N</div><div><h3>Notion AI</h3><div class="empresa">Notion</div></div></div>
+      <p>Dentro de tus notas y bases de datos de Notion: resúmenes, borradores, tablas y preguntas sobre tu propia información.</p>
+      <div class="tags"><span class="tag">Organización</span><span class="tag">Notas</span></div>
+      <a class="go" href="https://www.notion.com/product/ai" target="_blank" rel="noopener">Ver Notion AI</a>
+    </div>
+
+    <div class="card" data-busca="jasper marketing copy redes anuncios">
+      <div class="head"><div class="logo" style="background:#5b5bd6">J</div><div><h3>Jasper</h3><div class="empresa">Jasper</div></div></div>
+      <p>Redacción para marketing: anuncios, emails y posts de redes sociales con el tono de marca de tu empresa.</p>
+      <div class="tags"><span class="tag">Marketing</span><span class="tag">Copywriting</span></div>
+      <a class="go" href="https://www.jasper.ai" target="_blank" rel="noopener">Entrar en Jasper</a>
+    </div>
+
+    <div class="card" data-busca="gamma presentaciones slides diapositivas pitch">
+      <div class="head"><div class="logo" style="background:#8b5cf6">Γ</div><div><h3>Gamma</h3><div class="empresa">Gamma</div></div></div>
+      <p>Escribe el tema y en un minuto tienes una presentación de diapositivas bonita y lista para compartir.</p>
+      <div class="tags"><span class="tag">Presentaciones</span><span class="tag">Rápida</span></div>
+      <a class="go" href="https://gamma.app" target="_blank" rel="noopener">Entrar en Gamma</a>
+    </div>
+
+    <div class="card" data-busca="deepl traducción idiomas">
+      <div class="head"><div class="logo" style="background:#0f2b46;color:#fff">DL</div><div><h3>DeepL</h3><div class="empresa">DeepL</div></div></div>
+      <p>La traducción más precisa entre idiomas (y se puede corregir el estilo al traducir). También traduce documentos.</p>
+      <div class="tags"><span class="tag">Traducción</span></div>
+      <a class="go" href="https://www.deepl.com" target="_blank" rel="noopener">Entrar en DeepL</a>
+    </div>
+
+    <div class="card" data-busca="microsoft 365 copilot office word excel powerpoint">
+      <div class="head"><div class="logo" style="background:#d83b01">365</div><div><h3>Microsoft 365 Copilot</h3><div class="empresa">Microsoft</div></div></div>
+      <p>La IA de Microsoft dentro de Word, Excel, PowerPoint y Outlook: redacta, resume tus emails y crea hojas de cálculo.</p>
+      <div class="tags"><span class="tag">Office</span><span class="tag">Empresas</span></div>
+      <a class="go" href="https://www.microsoft.com/microsoft-365/copilot" target="_blank" rel="noopener">Ver M365 Copilot</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= DEVS ================= -->
+<section id="devs" data-cat="devs">
+  <h2><span class="ico">🧰</span> Plataformas para desarrolladores</h2>
+  <p class="lead">Para probar modelos, usarlos en tus programas o ejecutarlos en tu propio ordenador.</p>
+  <div class="grid">
+
+    <div class="card" data-busca="hugging face modelos datasets espacios">
+      <div class="head"><div class="logo" style="background:#ffd21e">🤗</div><div><h3>Hugging Face</h3><div class="empresa">Hugging Face</div></div></div>
+      <p>El "GitHub de las IA": millones de modelos abiertos, datasets y demos (Espacios) que puedes probar gratis.</p>
+      <div class="tags"><span class="tag">Modelos abiertos</span><span class="tag">Gratis</span></div>
+      <a class="go" href="https://huggingface.co" target="_blank" rel="noopener">Entrar en Hugging Face</a>
+    </div>
+
+    <div class="card" data-busca="openrouter multi modelo api un solo lugar">
+      <div class="head"><div class="logo" style="background:#2563eb">OR</div><div><h3>OpenRouter</h3><div class="empresa">OpenRouter</div></div></div>
+      <p>Una sola API y cuenta para usar cientos de modelos (GPT, Claude, Llama, DeepSeek…) comparando precios y calidad.</p>
+      <div class="tags"><span class="tag">API</span><span class="tag">Multi-modelo</span></div>
+      <a class="go" href="https://openrouter.ai" target="_blank" rel="noopener">Entrar en OpenRouter</a>
+    </div>
+
+    <div class="card" data-busca="ollama modelos locales privacidad sin internet">
+      <div class="head"><div class="logo" style="background:#e5e7eb">🦙</div><div><h3>Ollama</h3><div class="empresa">Ollama</div></div></div>
+      <p>Ejecuta modelos de IA <strong>en tu propio PC</strong>, sin internet ni cuotas. Ideal si no quieres subir tus datos a la nube.</p>
+      <div class="tags"><span class="tag">Local</span><span class="tag">Privacidad</span></div>
+      <a class="go" href="https://ollama.com" target="_blank" rel="noopener">Descargar Ollama</a>
+    </div>
+
+    <div class="card" data-busca="lm studio escritorio modelos locales chat gui">
+      <div class="head"><div class="logo" style="background:#7c3aed">LM</div><div><h3>LM Studio</h3><div class="empresa">LM Studio</div></div></div>
+      <p>Interfaz gráfica bonita para descargar y chatear con modelos locales en Windows, Mac y Linux sin usar terminal.</p>
+      <div class="tags"><span class="tag">Local</span><span class="tag">Fácil</span></div>
+      <a class="go" href="https://lmstudio.ai" target="_blank" rel="noopener">Descargar LM Studio</a>
+    </div>
+
+    <div class="card" data-busca="google ai studio gemini api prompts">
+      <div class="head"><div class="logo" style="background:#4285f4">AI</div><div><h3>Google AI Studio</h3><div class="empresa">Google</div></div></div>
+      <p>Prueba los modelos Gemini gratis, construye prompts y consigue claves de API para tus aplicaciones.</p>
+      <div class="tags"><span class="tag">Probar modelos</span><span class="tag">API</span></div>
+      <a class="go" href="https://aistudio.google.com" target="_blank" rel="noopener">Entrar en AI Studio</a>
+    </div>
+
+    <div class="card" data-busca="openai platform api developer">
+      <div class="head"><div class="logo" style="background:#10a37f">API</div><div><h3>OpenAI Platform</h3><div class="empresa">OpenAI</div></div></div>
+      <p>La API oficial de OpenAI para integrar GPT y los modelos de imagen/video en tus propios programas.</p>
+      <div class="tags"><span class="tag">API</span></div>
+      <a class="go" href="https://platform.openai.com" target="_blank" rel="noopener">Ver OpenAI Platform</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= ELEGIR ================= -->
+<section id="elegir">
+  <h2><span class="ico">🧭</span> ¿Cómo elegir? Guía rápida</h2>
+  <table>
+    <thead><tr><th>Si necesitas…</th><th>Usa esta</th></tr></thead>
+    <tbody>
+      <tr><td>Un asistente para todo (escribir, dudas, imágenes, voz)</td><td><strong>ChatGPT</strong> o <strong>Claude</strong></td></tr>
+      <tr><td>Algo integrado con Google (Gmail, Docs, búsqueda)</td><td><strong>Gemini</strong></td></tr>
+      <tr><td>Programar</td><td><strong>Claude Code</strong>, <strong>Cursor</strong> o <strong>GitHub Copilot</strong></td></tr>
+      <tr><td>Programar gratis y libre</td><td><strong>OpenCode</strong></td></tr>
+      <tr><td>Investigar con fuentes fiables</td><td><strong>Perplexity</strong> (o <strong>Consensus</strong> si son estudios)</td></tr>
+      <tr><td>Una imagen bonita</td><td><strong>Midjourney</strong> o <strong>ChatGPT/Gemini Images</strong></td></tr>
+      <tr><td>Un vídeo</td><td><strong>Sora</strong> o <strong>Kling</strong></td></tr>
+      <tr><td>Una canción</td><td><strong>Suno</strong></td></tr>
+      <tr><td>Una voz o narración</td><td><strong>ElevenLabs</strong></td></tr>
+      <tr><td>Una presentación</td><td><strong>Gamma</strong></td></tr>
+      <tr><td>Traducir bien</td><td><strong>DeepL</strong></td></tr>
+      <tr><td>Que tus datos no salgan de tu PC</td><td><strong>Ollama</strong> o <strong>LM Studio</strong></td></tr>
+      <tr><td>Usar muchos modelos desde un sitio</td><td><strong>Poe</strong> (chatear) u <strong>OpenRouter</strong> (desarrollo)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>💡 Consejo para no perderse</strong>
+    No necesitas todas: elige <strong>una generalista</strong> (ChatGPT/Claude/Gemini) + <strong>una para tu oficio</strong>
+    (código, imagen, música…) y domina esas dos. El resto de esta página es para cuando aparezca una necesidad concreta.
+  </div>
+</section>
+
+<!-- ================= GRATIS ================= -->
+<section id="gratis">
+  <h2><span class="ico">💰</span> Gratis vs. de pago</h2>
+  <ul class="tight">
+    <li><strong>Con plan gratuito puedes:</strong> chatear con límites diarios (ChatGPT, Claude, Gemini, DeepSeek, Le Chat, Kimi, Meta AI), buscar (Perplexity), generar imágenes (Canva, Leonardo, Kling) y crear música (Suno tiene nivel free con créditos).</li>
+    <li><strong>De pago suele implicar:</strong> modelos más potentes, más límites, uso comercial de imágenes y colas prioritarias. Suele rondar los <strong>10–20 €/mes</strong> (ChatGPT Plus, Claude Pro, Gemini Advanced, Cursor Pro…).</li>
+    <li><strong>100% gratis para siempre:</strong> las IAs open source (<strong>OpenCode</strong>, <strong>Stable Diffusion</strong>, <strong>Ollama</strong> + modelos como Llama, Qwen o DeepSeek).</li>
+    <li><strong>Alternativa económica:</strong> paga por uso con <strong>OpenRouter</strong> en vez de suscripción: solo gastas lo que uses.</li>
+    <li><strong>Estudiantes:</strong> muchas universidades dan acceso gratuito a ChatGPT Edu, Gemini o Copilot; pregúntalo en tu centro antes de pagar.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Directorio elaborado con fines divulgativos. Los nombres y marcas pertenecen a sus respectivos propietarios.
+     Enlaces a las <strong>páginas oficiales</strong> de cada servicio. Actualizado en noviembre de 2026.</p>
+  <p>¿Te sirvió? Mira también la otra guía: <a href="https://mara1978-val.github.io/opencode-guia/" target="_blank" rel="noopener">Guía de uso óptimo de OpenCode</a></p>
+</footer>
+
+</main>
+</div>
+
+<script>
+  // ---- Filtro por categoría ----
+  const chips = [...document.querySelectorAll('.chip')];
+  const secciones = [...document.querySelectorAll('section[data-cat]')];
+  const cards = [...document.querySelectorAll('.card')];
+  const input = document.getElementById('buscar');
+  const resultado = document.getElementById('resultado');
+  let cat = 'todas';
+
+  function filtrar() {
+    const q = input.value.trim().toLowerCase();
+    let visibles = 0;
+    cards.forEach(c => {
+      const seccion = c.closest('section');
+      const okCat = cat === 'todas' || seccion.dataset.cat === cat;
+      const texto = (c.dataset.busca || '') + ' ' + c.textContent.toLowerCase();
+      const okTexto = !q || texto.includes(q);
+      const mostrar = okCat && okTexto;
+      c.classList.toggle('oculto', !mostrar);
+      if (mostrar) visibles++;
+    });
+    // Ocultar secciones sin resultados
+    secciones.forEach(s => {
+      const algunaVisible = [...s.querySelectorAll('.card')].some(c => !c.classList.contains('oculto'));
+      s.classList.toggle('oculto', !algunaVisible);
+    });
+    resultado.textContent = q || cat !== 'todas'
+      ? visibles + ' herramienta' + (visibles === 1 ? '' : 's') + ' encontrada' + (visibles === 1 ? '' : 's')
+      : '';
+  }
+
+  chips.forEach(ch => ch.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('on'));
+    ch.classList.add('on');
+    cat = ch.dataset.cat;
+    filtrar();
+  }));
+  input.addEventListener('input', filtrar);
+
+  // ---- Resaltar sección en la barra lateral ----
+  const links = [...document.querySelectorAll('nav.sidebar a')];
+  const map = new Map(links.map(a => [a.getAttribute('href'), a]));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = map.get('#' + e.target.id);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('main section').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
